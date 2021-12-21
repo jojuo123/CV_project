@@ -1,0 +1,12 @@
+  CUDA_VISIBLE_DEVICES=0 python3.7 train.py \
+  --train_data_dir dataset/train_set \
+  --test_data_dir dataset/val_set \
+  --reuse_model './ckpt/SRN_29.pth' \
+  --lr 1e-4 \
+  --batch_size 8 \
+  --workers 0 \
+  --height 32 \
+  --width 200 \
+  --voc_type ALLCASES_SYMBOLS \
+  --max_len 800 \
+  --epoches 40 \
