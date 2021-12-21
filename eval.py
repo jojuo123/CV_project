@@ -92,12 +92,13 @@ if __name__ =="__main__":
     if not os.path.exists(res_dir):
         os.mkdir(res_dir)
     evaluator = Eval(ocr_model,'acc',True,args.voc_type)
-    for item in test_dataset:
-        with open('test_res.txt','a',encoding='utf-8') as f_w:
-            test_dataset,test_dataloader = get_data(os.path.join(test_dir,item),args.voc_type,args.max_len,args.num_test,args.height,args.width,64,args.workers,is_train= False,keep_ratio = args.keep_ratio)
-            res = evaluator.eval(test_dataloader,os.path.join(res_dir,item)+'.txt')
-            print(item+':\t'+str(res))
-            f_w.write(item+':\t'+str(res)+'\n')
+
+    # for item in test_dataset:
+    with open('test_res.txt','a',encoding='utf-8') as f_w:
+        test_dataset,test_dataloader = get_data(args.test_data_dir, args.voc_type,args.max_len,args.num_test,args.height,args.width,64,args.workers,is_train= False,keep_ratio = args.keep_ratio)
+        res = evaluator.eval(test_dataloader,os.path.join(res_dir,item)+'.txt')
+        print(item+':\t'+str(res))
+        f_w.write(item+':\t'+str(res)+'\n')
 
 
 
