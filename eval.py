@@ -27,6 +27,8 @@ class Eval():
             if self.voc[pred[i]]=='EOS':
                 break
             pred_str +=self.voc[pred[i]]
+        while len(pred_str)>0 and pred_str.endswith('PADDING'):
+            pred_str = pred_str[:-7]
         return gt_str,pred_str
 
 
@@ -82,22 +84,23 @@ class Eval():
 
 if __name__ =="__main__":
     args = get_args(sys.argv[1:])
-    output_type ={'LOWERCASE':38,'ALLCASES':64,'ALLCASES_SYMBOLS':96}
+    #output_type ={'LOWERCASE':38,'ALLCASES':64,'ALLCASES_SYMBOLS':96}
+    output_type ={'LOWERCASE':38,'ALLCASES':64,'ALLCASES_SYMBOLS':71}
     ocr_model = SRNModel(args.in_channels,output_type[args.voc_type],args.max_len,args.num_heads,args.pvam_layer,args.gsrm_layer,args.hidden_dims)
     ocr_model.load_state_dict(torch.load(args.reuse_model))
     test_dir = args.test_data_dir[0]
 
     test_dataset = ['IIIT5K_3000','ic13_1015','ic03_867','ic15_1811','svt_647','svt_p_645','cute80_288']
-    res_dir = 'res_dir'
+    res_dir = '../drive/MyDrive/CV_project/res_dir'
     if not os.path.exists(res_dir):
         os.mkdir(res_dir)
     evaluator = Eval(ocr_model,'acc',True,args.voc_type)
 
     # for item in test_dataset:
     with open('test_res.txt','a',encoding='utf-8') as f_w:
-        test_dataset,test_dataloader = get_data(args.test_data_dir, args.voc_type,args.max_len,args.num_test,args.height,args.width,64,args.workers,is_train= False,keep_ratio = args.keep_ratio)
+        test_dataset,test_dataloader = get_data(args.test_data_dir, args.voc_type,args.max_len,args.num_test,args.height,args.width,8,args.workers,is_train= False,keep_ratio = args.keep_ratio)
         res = evaluator.eval(test_dataloader,res_dir+'.txt')
-        # print(item+':\t'+str(res))
+        print(str(res))
         # f_w.write(item+':\t'+str(res)+'\n')
 
 
