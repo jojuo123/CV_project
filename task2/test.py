@@ -15,11 +15,11 @@ from PIL import Image
 
 def get_args():
     parser = argparse.ArgumentParser(description="OCR softmax loss classification")
-    parser.add_argument('--image-path', type=str, metavar='PATH',
+    parser.add_argument('--image-dir', type=str, metavar='PATH',
                         default="images", help="Path to images")
-    parser.add_argument("--box-path", type=str, metavar='PATH', default='boxes',
+    parser.add_argument("--box-dir", type=str, metavar='PATH', default='boxes',
                         help="Bounding boxes txt path")
-    parser.add_argument('--output-path', type=str, metavar='PATH', default='output',
+    parser.add_argument('--output-dir', type=str, metavar='PATH', default='output',
                         help="path for outputting prediction result")
     parser.add_argument('--height', type=int, default=64,
                         help="input height, default: 256 for resnet*, ""64 for inception")
@@ -103,7 +103,7 @@ class Prediction():
             images = [f for f in files if f.endswith(possible_extension_image)]
 
             if len(images) == 0:
-                raise ValueError("There are no images for prediction in ",image_dir)
+                raise ValueError("There are no images for prediction in ",image_path)
 
             # Đọc file từ image_path, lấy annotation từ box_path
             # Với từng box, crop image ra rồi predict từng cái
@@ -144,7 +144,7 @@ class Prediction():
                         boxes = sorted(boxes)
                         for box in boxes:
                             x_min, y_min, x_max, y_max = box
-                            pred_str = self.predict_one_image(original_image.crop((x_min,y_min,x_max,y_max)),
+                            pred_str = self.predict_one_image(original_image.crop((x_min,y_min,x_max+1,y_max+1)),
                                 w, h, keep_ratio)
                             fout.write(pred_str+"\n")
 
@@ -155,16 +155,16 @@ if __name__ =="__main__":
     ocr_model = SRNModel(args.in_channels,output_type[args.voc_type],args.max_len,args.num_heads,args.pvam_layer,args.gsrm_layer,args.hidden_dims)
     ocr_model.load_state_dict(torch.load(args.trained_model, map_location=device))
 
-    image_path = args.image_path
-    if image_path is None:
+    image_dir = args.image_dir
+    if image_dir is None:
         raise "No image path provided!"
-    box_path = args.box_path
-    if box_path is None:
+    box_dir = args.box_dir
+    if box_dir is None:
         raise "No txt-box path provided!"
-    output_path = args.output_path
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    output_dir = args.output_dir
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
     predictor = Prediction(ocr_model,args.voc_type)
-    predictor.run(image_path, box_path, output_path, args.width, args.height, args.keep_ratio)
+    predictor.run(image_dir, box_dir, output_dir, args.width, args.height, args.keep_ratio)
 
