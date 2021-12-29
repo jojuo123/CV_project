@@ -1,7 +1,6 @@
 import os.path as osp
 from yacs.config import CfgNode as CN
-
-SROIE_ROOT = "SROIE2019"
+from task3.sroie_root import SROIE_ROOT
 
 # It uses yacs which does the job perfectly. For further info,
 # check this out: https://github.com/rbgirshick/yacs/blob/master/yacs/config.py

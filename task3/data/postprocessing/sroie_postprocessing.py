@@ -86,7 +86,9 @@ def extract_total(textline: str):
     Returns:
         A string float number based on a regex. Otherwise empty string.
     """
-    matched = regex.search(r"([$\+\-]|[RM\s])*(\d+\.(\d{2}|\d))", textline.strip())
+    # matched = regex.search(r"([$\+\-]|[RM\s])*(\d+\.(\d{2}|\d))", textline.strip())
+    # \w* for VND or d or dong at the end
+    matched = regex.search(r"([$\+\-]|[RM\s])*([\d,\.]+\w*)", textline.strip())
     return matched.group().strip() if matched is not None else ""
 
 

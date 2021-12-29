@@ -10,10 +10,8 @@ from task3.utils import get_basename
 from task3.utils.sroie_utils import read_json_file, reorder_json_file
 from task3.data.datasets.sroie2019.variables import SROIE_DATE_PATTERN, SROIE_TOTAL_PATTERN
 
-# Importing useful function from task one.
 from task3.utils.box import to_xy_min_max, order_point_clockwise
-
-SROIE_ROOT = "SROIE2019"
+from task3.sroie_root import SROIE_ROOT
 
 class TextBox(object):
     def __init__(self, coordinates: list, max_parts: int):

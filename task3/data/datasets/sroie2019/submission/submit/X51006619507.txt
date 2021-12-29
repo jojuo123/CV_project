@@ -1,5 +1,0 @@
-{
-    "company": "GOLDEN ARCHES RESTAURANTS SDN BHD",
-    "date": "03/12/2016",
-    "total": "14.70"
-}
