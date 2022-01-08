@@ -4,7 +4,7 @@
 
 We can run the code at https://colab.research.google.com/drive/1X3BE_n7FzlpilzUP0uEQ6JlR2LRzVwOT
 
-The source code can be found at https://github.com/jojuo123/CV_project/tree/v1
+The source code can be found at https://github.com/jojuo123/CV_project
 
 Before batch evaluation or single prediction, we should download the models.
 
