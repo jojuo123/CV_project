@@ -152,3 +152,4 @@ if __name__ == '__main__':
     
     cv2.namedWindow("Output Image")
     cv2.imshow("Output Image", image_with_annotation_box)
+    cv2.waitKey(0)
